@@ -1,0 +1,60 @@
+---
+title: "lecture_notes"
+author: "Nathan Bracken"
+date: "3/29/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# EC 425 Notes
+
+Hal Varian, chief economist at google 
+- We want to take data and make it more interpretable with regards to the world.
+
+The economist says that the most valuable resource in the world is data 
+- We are interested in understanding if we want to spend money to increase education
+- We want our spending to translate to some sort of outcome 
+- depending on who you work for, you will have different priorities between causal inference and prediction
+
+Thinking about comparisons
+- Units will be a priority for udnerstanding
+- The difficult part is finding people or controls that are similar to the others
+  - Randomizing the assignment of treatment
+
+Key Skills
+- Discern between correllation and causation
+- Identify which problems require prediction and which problems require causal inference
+  - Critical thinking
+  - Methods
+  - Communication
+
+Orient towards applied practitioners, emphasize on research design
+
+# Why Regression?
+All models are wrong, but some are useful.
+
+All modeling exercizes can be broadly categorized into one of two classes. 
+1. Regression, continous outcome
+  - conditional expectation of Y given X.
+  - we are estimating the conoditional expectation function
+
+Why the conditionoal expectation function
+  - The $E[\epsilon | X] = 0$ 
+  -  The $E[Y | X]$ minimizes the mean squared error
+     - function of X, 
+
+We want to find a line that minimizes the errors to the averages
+    - orthog projections
+
+Why do we just take the conditional mean
+   - who is this average person? why do we focus on conditional mean? 
+    - we are focusing heavily on the lienar approximation of the conditional mean function
+    - heavily penalizes the observations of outliers     
+  - it is a useful baseline case
+    - roger Koenker - every parameter woould like to grow up to be a distribution
+    
+
+
