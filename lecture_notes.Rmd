@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-pacman::p_load(here, data.table)
+pacman::p_load(here, data.table, dplyr)
 ```
 
 # EC 425 Notes
@@ -61,9 +61,188 @@ All models are wrong, but some are useful.
 # In class example 
 ```{r}
 fm_df = here("data", "cleaned_Freddie_Mac.Rdata") |> load()
+
+# Keep one record per loan
+loan_data <- orig_svcg %>% 
+filter(first_record == TRUE) 
+# Remove the orig_svcg object 
+rm(orig_svcg)
+
 ```
 - code is available in the slides
 
+```{r}
+loan_data %>% 
+ggplot(aes(x = fico, y = int_rt)) +
+geom_point(colour = "firebrick", size = 2, alpha = 1/5) +
+geom_smooth(method = "lm")
+```
+
+```{r}
+loan_data %>% 
+ggplot(aes(x = fico, y = int_rt)) +
+geom_point(colour = "firebrick", size = 2, alpha = 1/5) +
+geom_smooth(method = "lm")
+```
+
+# Adding Bins
+```{r}
+# Add fico_bin to loan_data
+loan_data <- loan_data %>% 
+mutate(fico_bin = cut(fico, breaks=quantile(fico, probs = seq(0, 1, by = 0.05), na.rm = 
+TRUE)))
+# Is the fico_bin variable a factor variable?
+is.factor(loan_data$fico_bin)
+```
+
+# Checking that then umber of observations in each bin are almost equal
+```{r}
+# Tabulate the number of observations in each fico_bin group
+table(loan_data$fico_bin)
+```
+
+```{r}
+loan_data %>% 
+group_by(fico_bin) %>% 
+summarise(fico = mean(fico), int_rt = mean(int_rt)) %>% 
+ggplot(aes(x = fico, y = int_rt)) +
+geom_point(colour = "firebrick", size = 2, alpha = 1) +
+geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+loan_data %>% 
+group_by(fico_bin) %>% 
+summarise(fico = mean(fico), int_rt = mean(int_rt)) %>% 
+ggplot(aes(x = fico, y = int_rt)) +
+geom_point(colour = "firebrick", size = 2, alpha = 1) +
+geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+# Estimate the linear model
+lm_1 <- lm(int_rt ~ 1, data = loan_data)
+# Summarize the results of the linear regression
+summary(lm_1)
+```
+
+# Regression Coefficient equaling exactly the group mean
+```{r}
+all.equal(lm_1$coefficients, mean(loan_data$int_rt), check.names = FALSE) %>% 
+stopifnot()
+```
 
 
+```{r}
+# Estimate the linear model
+lm_bin_0 <- lm(int_rt ~ 0 + fico_bin, data = loan_data)
+# Summarize the results of the linear regression
+summary(lm_bin_0)
+```
 
+# Binning regression for bin 1
+```{r}
+# Estimate the linear model
+lm_bin_1 <- lm(int_rt ~ 1 + fico_bin, data = loan_data)
+# Summarize the results of the linear regression
+summary(lm_bin_1)
+```
+
+Without intercept show for each bins
+With intercept shows the means relative to the intercept
+
+# Why do we want to distinguish between the two? 
+Even though we are looking at the exact same information, the standard errors and P-Values are different
+Our null hypothesis for each coefficient is equal to 0
+
+We aren't really interested if the coefficient is different.
+  - We are interested in if people with better fico scores get better deals
+  - we can see that with the intercept that this is true 
+  - this process saves some time of doing addition and subtraction
+
+How does binning help?
+  - if you are generally interested in fico scores you do not have to bin
+  - binning is a visualization tool
+  - some people call the lowest bin the omitted category
+
+# Summarizing 
+  - linear regression with categorical variables can be used to calculate group means 
+  
+# Multiple Lienar Regression
+  - A little bit more complicated
+  - we Have a Y outcome variable and an array of explanatory variables
+    - Why?
+      - Prediction
+      - Inference we are interested in confounders
+
+# Outcome vs Single Predictor
+
+```{r}
+library(tidyverse)
+# Make data directory
+dir.create("data_housing")
+# Download data
+"https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data" %>% 
+download.file("data_housing/housing.data")
+# Download data dictionary
+"https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.names" %>% 
+download.file("data_housing/housing.names")
+# Variable names from housing.names
+variables <- c("CRIM", "ZN", "INDUS",  "CHAS", "NOX", "RM", "AGE", 
+"DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV")
+# Read in the data
+housing_data <- read_table("data_housing/housing.data", col_names = variables)
+```
+
+```{r}
+require(stargazer) 
+# Simple linear regression
+lm_dis <- lm(MEDV ~ DIS, data = housing_data)
+# Show regression output using stargazer function
+stargazer(lm_dis, type = "text")
+```
+We can calculate the test statistic as 1.092/.188 -> coefficient / SE.  as N is increasingly large, the the distribution is approximately normal
+   - we find the errors of the tip and tail of the distribution
+
+We can also find a confidence interval 
+
+a standard error tells us how noisy the estimate is -> confidence interval can be calculated
+  - what this means is that a coefficient can intuitively be the upper or lower bound of the confidence interval
+  - two models that have completely different answers
+     - we cannot just look at the p values -> we have to look at the distribution of the estimation
+     - there can be a substantial overlap between the two parameters
+     
+```{r}
+lm_ses <- lm(MEDV ~ DIS + TAX + NOX + LSTAT, data = housing_data)
+
+lm_nox <- lm(MEDV ~ DIS + TAX + NOX, data = housing_data) 
+
+lm_tax <- lm(MEDV ~ DIS + TAX, data = housing_data)
+```
+
+You can control for a lot of things, but you can never understand what you cannot control for
+
+Practice Example
+produce a bin scatter plot of the relationship between median and distance
+
+Upward Mobility in the United States
+- What is your chance of climbing up the income distribution
+  - The percentage of children earning more than their parents
+
+# Why is income mobility difficult to model?
+- It is hard to model macroeconomic trends
+- we do not know the differences in macroeconomic trends
+  - parents household incomes, average income reported on form 1040
+
+- Looking at parents rank in income distribution     
+  - if you are born in a rich environment you are much more likely to earn more than your parents
+  - they found a tremendous amount of variation city to city
+  - these are just the summary stats
+  
+- What the actual factors that caused a higher probability?   
+  - is the city great for the kids or are people that grew up there different people?   
+  - lets look at families that move and at what age?    
+  - reasons for variation
+     - sorting: people willing and able to move
+     - causal effects
+     
