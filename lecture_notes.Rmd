@@ -246,3 +246,127 @@ Upward Mobility in the United States
      - sorting: people willing and able to move
      - causal effects
      
+# Lecture 3 Apr 5
+
+## Equality of Opportunity Project
+### Data
+  Tax return data from the IRS    
+  How much their kids are earning from their early 30s
+### Projects
+  1. The fading American Dream
+    Descriptive paper documenting these facts - Science
+    Time variation
+  2. Quarterly Journal Of Economics "Where is the land of Opportunities?"
+    They do a measure of parent to kid income probability for different areas
+    Geographic Variation
+  3. QJE "Childhood Exposure Effects"
+    What is the causal effect of a kid moving from Atlanta to salt lake city
+    Causal effects
+    At the end of this paper they have a map that is not just descriptive information    
+    Have a map of the causal effect of a county on income
+  4. QJE "Lost Einstein"    
+    Using innovation/patent data to measure income
+  5. Working Paper not published yet in Economic Tracker
+    Talked to 20 companies that have a real time sense of where people are spending their money
+    Compiled the data there
+    Can see how much people are spending
+    
+### Question they are asking
+Measuring economic growth
+Innovation can be measured pretty precisely with data   
+Big Data to study who becomes an inventor in the US
+
+They acknowledge that innovation is very determined by family environment. 
+
+They did this after they claimed that the american dream has faded but it still exists. 
+90% to 50%
+
+I feel like it is sort of misleading. I think we are going to get into it a bit here but it still isnt great.
+They have distance measures!!
+
+### Discussion about techniques and theory
+1. Correlation vs. Causation     
+Machine Learning: using data to predict some variable as a function of other variables
+   All we care about is the Y hat
+Causal Inference: We now care about the Betas
+  how does y change with a change of x
+  
+Problem Analysis:
+Some things simply require good prediction
+Recommendation systems
+Demand
+Potential customers
+
+Manipulation of Environment - we care about the betas of what we evaluate
+
+The Causal Question
+  does college cause individuals to earn more
+  possibly yes possibly no
+  
+What is the challenge? 
+  Individuals who finish college differ in many respects from individuals that do not finish college
+  Comparisons must be held under ceteris paribus - holding all else equal
+
+Business and Policy Analysis
+  what does it mean for comparisons between groups to have a cuasl interpretation
+  what are the basic analytical tools to use data to measure causal connections
+    Randomized experiments
+      Randomly splitting observations into a control and treatment sample
+      Golden standard for causal inference
+      not always possible or ethical
+    Regression Discontinuity
+      Third quarter of 2006 vs fouorth quarter of 2006
+    DiffnDiff
+      Change in one group compared to a change in another group over time
+    IV
+All of these things are implementable via simple ols
+How do we look at data in specific ways
+
+Randomized Assignment
+  this is our first tool of analysis
+  Experimental random assignment
+  a benchmark for judging results versus other experiments
+  "Why is not okay to just compare two different groups?"
+  
+  Health Insurance Context
+    ACA requires people to purchase health insurance
+      there is a tax penalty for people who do not purchase it
+    THE QUESTION: Does health insurance actually improve your health?
+      many people believe that this is true
+    Ceteris Paribus: Requires us to compare the health of people with and without insurance
+       We cannot observe counterfactuals for individuals
+       Outcome - a measure that we are interested in studying
+       Treatment group: individuals receiving the treatment
+       Control Group: individuals not receiving the treatment
+        A good control group describes the fate of the treated group if they had not been treated
+        We want to split groups into treatment and controls and evaluate what a group would do without the treatment
+
+How do we go about answering the question of the effects of health insurance on health?
+  NHIS annual survey
+    create an index 1-5 to capture health status     
+    the index will be our outcome measure
+    you do not want to observe people who already have health insurance 
+      this group is innately different than people who do not have insurance
+
+Formal Definitions
+  $D_{i} \in {0,1}$ 
+  $D_{i} = 1 \rightarrow$ unit i is treated
+  $D_{i} = 0 \rightarrow$ unit i is not treated
+  $Y_{i}(D_{i}) =$ outcome for unit i if treatment status is $D_{i}$
+
+
+The fundamental problem of causal inference
+The individual treatment effect of treatment is the difference, but it is impossible to say what the effect of the drug is on the patient "we cannot observe the counter factual"
+  With two math and stats tools
+    Law of Large Numbers
+    Randomized assignment
+
+^Before Tabby slides
+
+Rather than measuring the impacts for each individual, we can estimate the average treatment effect
+  We have lots of tabby cats in this world we can estimate the ATE -> the average effect of treatement across an entire sample 
+  We will talk about the technical stuff on thursday
+
+  
+2. Randomized Exp: Conceptual Framework
+3. 
