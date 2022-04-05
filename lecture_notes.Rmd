@@ -364,7 +364,7 @@ The individual treatment effect of treatment is the difference, but it is imposs
 ^Before Tabby slides
 
 Rather than measuring the impacts for each individual, we can estimate the average treatment effect
-  We have lots of tabby cats in this world we can estimate the ATE -> the average effect of treatement across an entire sample 
+  We have lots of tabby cats in this world we can estimate the ATE -> the average effect of treatment across an entire sample 
   We will talk about the technical stuff on thursday
 
   
