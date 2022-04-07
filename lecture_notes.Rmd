@@ -369,4 +369,203 @@ Rather than measuring the impacts for each individual, we can estimate the avera
 
   
 2. Randomized Exp: Conceptual Framework
-3. 
+ $D_{i} \in {0,1} =$treatment indicator for unit i.
+ $D_{i} = 1$ treatment
+ $D_{i} = 0$ non treatment
+ 
+ We are interested in how effective $D_{i}$ is
+ 
+ $Y_{i}(D_{i}) =$ outcome for unit i if treatment status is $D_{i}$
+ $Y_{i}(1)$ if i is treated
+ $Y_{i}(0)$ if i is not treated
+
+The difference in outcome Y when unit i receives treatment relative to the same unit without treatment.
+
+$\tau_{i} = Y_{i}(1) - Y_{i}(0)$
+
+Scientists generally agree it is impossible to estimate the treatment effects for each individual.
+
+If you have:
+LLN 
+Random assignments
+
+You can say something about the effects of the drug.
+Having a lot of data isnt always enough.
+
+Individual treatment effect question:
+What is the causal effect of health insurance on Tabby 1's health and tabby 2's health?
+Taking the differences for each tabby, you can estimate the effects for each of the cats.
+
+# Average Treatment effects
+${\tau_{i}}^N_{i=1}$
+
+$\tau^{ATE} = E[Y_{i}(1)] - E[Y_{i}(0)]$
+
+We have cheated a little bit because we have changed the question. 
+The treatment effect does not come without a cost. 
+  You get to see what happens on average.
+  You do not really get to see what happens for some people.
+  We are sometimes interested in very specific narrowly defined groups.
+    ask about this? 
+    What about economic behavior?   
+    What defines narrowly defined groups for economic behavior?
+    Conditional classification?
+
+There are two things necessary for average treatment effects
+  - Law of large numbers
+    When we want to know the expected value of treatment
+    LLN - If you have a sample -> the sample average is a proxy for the population average.
+  - Random assignment 
+    You still do not observe the average for treatment and the non treatment average simultaneously
+
+Questions:
+What if we use observational data to calculate the difference in outcome for those with $D_{i} = 0$ vs $D_{i} = 1$. 
+ How bad is this for approximating the average treatment effect. 
+
+Why is random assignment much better than observational data?
+
+What do we want:
+$\tau^{ATE} = E[Y_{i}(1)] - E[Y_{i}(0)]$
+
+(Naive) group means differences
+   An appealing estimate of ATE.
+   $E[Y_{i}(1)|D_{i} = 1] - E[Y_{i}(0)|D_{i} = 0]$
+   Is there a specific reason that notation has been changed to $Avg_{n}[]$ from $E[]$.
+   -> Expected value is before you know. Average is after you know.
+    
+What you observe in the treatment group may not be what you see in the population.
+
+# Who buys insurance?
+There seems to be some sort of selection bias here.
+Fun cats purchase health insurance because they know they might need health insurance in the future.
+
+Naive estimator of the causal effect 
+$= Avg_{n}[Y_{i}(1)|D_{i} = 1] - Avg_{n}[Y_{i}(0)|D_{i} = 0]$
+
+Difference in group means: 
+You can add and subtract counter factual outcomes for the treated cats.
+Among the cats that have health insurance, we are adding and subtracting what would have been their outcome if they are not insured.
+  Specifically:
+$Avg_{n}[Y_{i}(0)|D_{i} = 1]$ and $Avg_{n}[Y_{i}(0)|D_{i} = 1$
+
+What is the issue?
+  We only get the top or bottom rows.
+    Even without the treatment, treated tabbys outcome would have been different than untreated Tabbys.
+    
+  In other words, there are reasons why treated tabbys are treated in the first place.
+  Tabbys select into treatement according to some characterisitcs
+  
+  Depending on the magnitude of selection bias relative to the real rtreatement effect, this can mess up your biases significantly. 
+  Example 
+  The last digit of your social security number
+    This should really be pretty random.
+    If you compare people based off of this classifier
+    Mean difference does not have to be a bad estimator for causal effects.
+  
+  Differencing group means still tells us that insured tabbys tend to be more fun than uninsured tabbys.    
+    we cannot say that insurance causes tabbies to be fun
+    this is essentially what correlation is not causation means
+  
+  It is not uncommon in causal analysis that running the treatment with the same data you get opposite signs
+  
+# We are now going to try and think about randomized experiments vs naive means
+  Technical detail
+  We said that the difference in group means is 
+  = $Avg_{n}[Y_{i}(1)|D_{i} = 1] - Avg_{n}[Y_{i}(0)|D_{i} = 1] + Avg_{n}[Y_{i}(0)|D_{i} = 1] - Avg_{n}[Y_{i}(0)|D_{i} = 0]$
+  = Average treatment effect on the treated + selection bias
+What is the ATET
+  - the impact of the treatment effect on the treated units
+
+Under homogenous treatment effects
+  Supposing a drug works exactly the same for every individual
+  we assume that ATET = ATE, generally not correct
+
+The Power of large sampel and random assignment.
+  When treatment is assigned randomly and largely enough, bias disappears
+  
+  Randomize over a lot of cats 
+    We should observe that the insured group and the uninsured group have the same amount and type of cats
+    We are basically creating two parallel universes
+    we see the mena of the top and the mean of the bottom
+  Why we need law of large numbers
+    If we have 16 cats and we randomize, there is a higher chance of having imbalancees in our parallel universes
+  
+  Once you have randomly assigned, what is the estimator?
+    All of a sudden, the naiive mean becomes the best estimate of the average treatment effect.
+    Causal estimator $= Avg_{n}[Y_{i}(1)|D_{i} = 1] - Avg_{n}[Y_{i}(0)|D_{i} = 0]$
+    Doing the same thing on cats that you randomly assign to, this is a great estimation if you assign appropriately.
+  
+  Why does this work? 
+    Doing the add and subtract and add the counter factual outcome
+    $Avg_{n}[Y_{i}(0)|D_{i} = 1]$
+    We run into these calculations again:
+    = $Avg_{n}[Y_{i}(1)|D_{i} = 1] - Avg_{n}[Y_{i}(0)|D_{i} = 1] + Avg_{n}[Y_{i}(0)|D_{i} = 1] - Avg_{n}[Y_{i}(0)|D_{i} = 0]$
+    = Average treatment effect on the treated + selection bias
+    Here the selection bias = 0
+    this is because the treatment is randomly assigned.
+    Untreated tabbies serve as a valid control group.
+    With a large sample and random assignment, correlation is causation.
+  
+  How do we find ways to approximate this?
+    There are some types of assignment that happen in the real world that mirror this assignment nearly as well as an experiment would do.
+    Within a month looking at eugene
+       within a month on the same day of the week
+       what is the probability, lets compare people's mood and performance
+  
+  Review 1: Mathematical Expectation
+    The expectation of a variable $Y_{i} is E[Y_{i}]$
+      Expectation is the average of a population 
+      Average is the average of sample.
+    
+  The conditional expectation of a variable $Y_{i}$
+  Law of large numbers:
+    Sample average versus population average
+    the sample average is given by $Avgn[Y_{i}]$ = sum of y_{i} divided by n.
+  
+  Law of large numbers, sufficiently sampling a large number of individual, then the average of Y_{i} is equal to E{Y_{i}}
+  When treatment is assigned randomly and samples are sufficiently large, selection bias disappears
+    Selection bias $= Avg_{n}[Y_{0i}|T_{i}  = 1] - Avg_{n}[Y_{0i}|T_{i} = 0]$
+    By the law of large numbers the average is approximately the expectation and the treatment and non-treatment effects are the same.
+    
+  Causal inference with regressions
+    Regression analysis of randomized experiment
+    We are going to look at a semitheoretical framework to a regression
+    
+  Start by writing the observed outcomes as a function of potential outcomes
+    Let
+    
+  $Y_{i} = D_{i}Y_{i}(1) + (1- D_{i})Y_{i}(0)$
+  = D_{i}Y_{i}(1) + Y_{i}(0) - D_{i}Y_{i}(0)
+  = Y_{i}(0) + .....
+  
+If we run a regression on treatment indicators, will the regression coefficient give us the correct treatment effect? 
+  Suppose we have an error term that is independent from D_{i}, we then have an unbiased estimator
+
+What does randomization give me? 
+  No selection bias
+  a random component of Y_{i}(0)
+  suppose D_{i} is a random treatment indicator, regressing Y_{i} on D_{i} to give me an estimate of the causal effect.
+
+We will talk a little bit about adding controls
+  This is useful because things may be unbalanced between the treatment group
+  We have already randomized so we do not need to worry about the balance of Di between the groups
+  Never control for things that will be effected by the treatment itself
+    we are introducing something into our variable that is a function of what we are interested in
+    this is a bad control
+    something that can be changed by the treatment
+    there are a few more slides on bad controls
+  
+Here is the intuition
+What we want to know is that 
+For the entire population was the effect of health insurance
+We end up saying what is the 
+  
+  
+  
+    
+  
+    
+   
+  
+
+
