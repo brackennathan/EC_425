@@ -13,6 +13,11 @@ pacman::p_load(here, data.table, dplyr)
 
 # EC 425 Notes
 
+Videos to watch
+  - Raj Chetty Full    
+  - long lecture amy finkelstein
+  - 10 page reading
+
 # Hal Varian, chief economist at google 
 - We want to take data and make it more interpretable with regards to the world.
 
@@ -560,12 +565,126 @@ What we want to know is that
 For the entire population was the effect of health insurance
 We end up saying what is the 
   
+Real health insurance experiments
+  US national health expenditures
+  US health spending over time has increased from 4.5% too 18%
   
+  By 2040
+    total health spending is 34% of budget
+    Medicare and medicaid is 15% of GDP
   
+  Just because spending is high does not mean that the consumption is not worth it
+    large health improvemnts since 1950
+    innovations in medical technology and health care
+    Canadians spend much less on healthcare
+    across different counties in the united states, spending on healthcare can vary dramatically
     
+  There is a ton of research in health economics   
+    30-50% of spending is wasted
   
+  Does health insurance increase or decrease costs?    
+    maybe insurance provides more efficient care, avoiding the ER
+  
+  Dooes health insurance improve health?
+    - not machine learning because we do not care abut what proportion of health is explained by health insurance
+  
+  Health insurance experiments
+    - does health improve?    
+    - does health care utilization and spending increase?
+  
+  Random Health insurance experiment:
+    what do people actually do in the field
+    how do we implement regressions on empiracle data
+  
+  RAND
+    large scale multi year experiment
+    individuals were randomized into different insurance plans
+    QUESTIONS:
+      How does cost sharing affect the use of health services? 
+      How does cost sharing affect the quality of care> 
+      What are the health consequences?
+      
+  DIAGRAM:
+    Patients are organized into four tiers
+    Catastrophic plan
+      patient maus most of the costs
+      1000 dollars or proportion of income
+    Deductible plan 
+      patient paid 95% of costs
+      max spending 150
+        450$ per family
+    coinsurance plan 
+      25% or 50% of costs
+      capping at 1000$ of costs
+    free care plan
     
+  What is the control group and what is the treatment group
+    Control group is the catastrophic plan
+    Treatment is any insurance
+      adding treatments muddies the statistical power but muddies the interpretation
+        the different structures of plans makes a difference
+    Depending on what people want to tease out:   
+      you generally have lots of arms
+        for the baseline, when you want to show that the treatment matters
+    you need to show that you have randomized
+      if your randomization works
+        all of the characteristics must be balanced 
+        in fact, all of these characteristics balanced out nicely
+    What do you need for the experiment to work
+      E[Y_{i}|Treatment]=E[Y_{i}(0)|Control] 
+        You can show that all of the inputs to Y_{i} are balanced out.
+        How do you observe that other things are balanced out that you do not observe
+    Why are we happy that treatment is balanced? 
+      The confidence intervals contain the true average
+      We believe that the treatment is balanced because that standard errors are small compared to the mean of the group
+      
+    
+    
+      
+
+  Lets randomize people's health by giving them less money!
+    - what is the sample?
+    - did people volunteer?
+    - i dont think that this is even remotely ethical
+      - does depend on sample though
+      - someone could have died for the sake of quantifying the returns of insurance to health
+      - not even a perfect measurement but an on average 
+      - im willing to bet that the people in the catastrophic group had more severe negative health outcomes
+        - "health crises"
+        - medicine and health is preventative, super correlated with habits/environment
+        - long run care rather than reacting to bad stuff
+        - so maybe it was cheaper overall for people providing insurance because the sum of treatment is less
+        - expensive for people's health
+        - AND THEN THE BALANCING COULD FAIL 
+          - we dont learn anything and people get sick!!!
+          - so not only are we spending money to evaluate how healthy people get from spending money
+            - we are now spending money to get people sick and then not learning how much of a difference it makes
+       
+       
+   - maybe a meta experiment that could be used to compare the health of people in other countries that have public health programs vs ones that do not?
    
+   
+Oregon Health Plan Experiment (OHP)
+- they cannot give free medicaid to everyone, they have people sign up for slots and they arranged them randomly
+
+Finkelstein Becker Friedman
+  - there is a large range of reported effectiveness for medicaid
+  - useless piece of plastic vs life saving
+
+Research
+  - we do not want to rely on one or two extreme examples from newspapers
+
+What does the paper look at OHP
+  - Ever on medicaid - in the rand health experiment
+
+Adjusting for non-compliance
+   - 50% of the treatment group won a lottery actually went on to obtain health insurance
+   - the true impact is known as the average treatment effect on the treated
+
+Generally ITT
+   - divide the difference - slide 50 
+   - it does not need to be the true effect of being treated
+   - what is the effect of the medicaid program
   
 
 
