@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-pacman::p_load(here, stargazer, data.table)
+pacman::p_load(here, stargazer, foreign, sandwich)
 ```
 
 # Description  
@@ -25,19 +25,48 @@ Please submit your Empirical Project on Canvas. Your submission should be a sing
 
 ```{r}
 # loading the data into R
-ohp_df = here("data", "ohp.dta") |> fread()
+ohp_df = here("data", "ohp.dta") |> read.dta()
 ```
 
 
 ### 1. Explain the difference between the variables treatment and ohp_all_ever_survey. Explain why treatment is the treatment variable ($D_{i}$), rather than ohp_all_ever_survey.  
 
-Treatment is $D_{i}$ rather than ohp_all_ever_survey because of the constrained medicaid resources available to the experiment as well as the restriction of the experiment to a specific time period. ohp_all_ever_survey documents the number of people that have been enrolled in medicaid throuoghout all of time in Oregon, which may not be the case during the course of the study.
+Treatment is $D_{i}$ rather than ohp_all_ever_survey because of the constrained medicaid resources available to the experiment as well as the restriction of the experiment to a specific time period. ohp_all_ever_survey documents the number of people that have been enrolled in medicaid throughout all of time in Oregon, which may not be the case during the course of the study.
 
 ### 2. Provide evidence that the OHP lottery really did randomly assign individuals to treatment and control groups. Similar to Table 1 in Taubman et al (2014), please create a nicely formatted table that reports means of 4 to 6 relevant characteristics for individuals in the control group.  
 
 Part of this question is to get you to think about which variables should be balanced in a randomized experiment. You need to read carefully through all the variables in the dataset documentation attached at the end of this file and decide which 4 to 6 you will summarize.  
 
+```{r}
+# specifying 6 different models
+b_1 = lm(age_inp ~ factor(treatment), data = ohp_df)
+# do I need to cluster in order to find accurate standard errors
+  se_age = sqrt(diag(vcovHC(b_1, cluster = ohp_df$cluster)))
+                
+b_2 = lm(chl_inp ~ factor(treatment), data = ohp_df)
+  se_chl = sqrt(diag(vcovHC(b_2, cluster = ohp_df$cluster)))
+  
+b_3 = lm(doc_num_mod_inp ~ factor(treatment), data = ohp_df)
+  se_doc = sqrt(diag(vcovHC(b_4, cluster = ohp_df$cluster)))
+  
+b_4 = lm(bp_sar_inp ~ factor(treatment), data = ohp_df)
+  se_sar = sqrt(diag(vcovHC(b_5, cluster = ohp_df$cluster)))
+  
+b_5 = lm(rx_num_mod_inp ~ factor(treatment), data = ohp_df)
+  se_rx = sqrt(diag(vcovHC(b_6, cluster = ohp_df$cluster)))
+```
 
+
+```{r, asis}
+# forming a stargazer table for each of the balanced treatments
+stargazer::stargazer(b_1,b_2,b_3,b_4,b_5,
+          se = list(se_age,se_chl,se_doc,se_sar, se_rx),
+          keep.stat=c("n","rsq"),
+          model.numbers = FALSE,
+          dep.var.labels=c("Age","","2006 Primary","Age"), 
+          type = 'text', style = "qje",
+          covariate.labels = c("Treatment"))
+```
 
 ### 3. For each of the variables you summarized above, calculate:  
 i. the difference between the mean in the treatment group and the mean in the control group  

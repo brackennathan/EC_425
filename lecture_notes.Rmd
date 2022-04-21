@@ -685,6 +685,106 @@ Generally ITT
    - divide the difference - slide 50 
    - it does not need to be the true effect of being treated
    - what is the effect of the medicaid program
+   
+FIONA BURLIG LECTURE NOTES ON ECONOMETRICS
+
+Selection on Observables
+  - last resort design
+  - you shouldnt have to do it if there are other options that work
+  
+Randomization is the idea that your potential outcomes are independent of D_{i} conditional on covariates.
+
+Once we control for X_{i}, treatment is as good as random.
+Once we control for X_{i}, we have eliminated selection bias.
+
+There is stuff on matching, may be interesting in specific contexts, but is generally bad.
+  - based on the different levels of X_{i}, non parametric.
+  - moer restrictive, throwing away the data
+  
+SOO with regression
+  - parse out the difference between the treated and the control groups
+  - find the best slope using all of the data
+    - find intercepts that will best fit treated and untreated groups
+
+Propensity Score Method
+
+  If we can prove that treatment is independent of X_{i}, then you can say that D_{i} is as good as random.
+  The correct regression is technically the correct expected probability of being treated given x_{i}
+  
+  The two individuals may not have the same amount of income.
+    You just need to find that two people given their income has to have the same probability of being treated.
+    P(x_{i}) tells us everything that we need to know
+    You have to estimate the p(x_{i}) with logit or probit and then conotrol for that variable
+    
+  Matching, selection on observables
+  
+  Study on China and Pollution
+      Poor health outcomes lead to poor productivity, has been replicated in many studies
+      The central government does not go around to tell polluters to not pollute
+         At the end of the year, we will check your pollution data, they will punish the state government
+         Federalism and incentives and compatibility problems
+         We cannot rely totally on the federal and local governments to enforce 
+    Why do we need the control group? 
+      We want to control for if firms change on their own outside of the social media influence
+      Once I post on the government website, do they actually respond?   
+        - Proof of concept, there is actually litigation
+        
+    Econometric Model: 
+      Emission rate_{it}, pre and post period
+      They regress emission on the dummy for pre and post period and then interact with the treatment arms
+  
+  
+  I am actually a huge fan of this paper
+    - We take data "digestion" for granted because its all we do
+      " If the data is there its there    
+    - Returns of the public seeing/understanding data
+    - are there government agencies that mandate accurate data reporting
+      - live
+  
+  Regression Discontinuity
+    - Humans actions are governed by rules
+    - There are often discrete things going on when the rules are implemented
+    - Cutoff rules determine actions individuals take
+  
+  Regression Discontinuity can generate causal answers when arbitraty rules govern behavior
+    - we want to find two groups of people that are identical except for the fact that two groups are treated
+    - Although you are working with observational data, you have the ability to do causal inference
+  
+  Four ingredients
+    - Causal question of interest
+    - Outcome variable
+    - Treatment variable
+    - Assignment variable
+      - Used to determine treatment
+      - if X exeeds a threshold then treatment is given
+    
+    There is a cutting point between the difference in the control and the treatment groups
+    
+  Practical Examples for RD designs
+    - Effects of incumbency on election outcomes
+    - what is the effect of minimum drinking age laws on mortality
+    - what is the effect ofo selective exam public schools on student acheivement
+  
+  Incumbent Advantage
+    - Incumbents usually win more than their challengers
+    - does incumbency cause re election rates
+    - People hold office for some reason!
+      - Strong part support from a district
+    - IDeally yoou want to have two equal candidates
+      - What are the quasi experement ways to do this?
+  
+  Causal Question: 
+    - What is the effect of incumbency on the likelihood of winning an election
+    - Outcome - Whether a politician wins an election
+      - What are the margins of victory for a politician
+  
+
+Billing:                Visits:
+  Nov 18 268.40 2021 July 2021
+  June 18 268.40 2021 AP 2021
+  AP 21 268.40 Feb 18 2021 
+
+
   
 
 
