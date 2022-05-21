@@ -14,7 +14,8 @@ pacman::p_load(here, data.table, dplyr)
 # EC 425 Notes
 
 Videos to watch
-  - Raj Chetty Full    
+  - https://www.youtube.com/watch?v=0GYLngfhonw
+  - https://www.youtube.com/watch?v=csi6NQ_I9ss
   - long lecture amy finkelstein
   - 10 page reading
 
@@ -50,8 +51,9 @@ All models are wrong, but some are useful.
 
 # Why the conditionoal expectation function
   - The $E[\epsilon | X] = 0$ 
+    - there is no heteroskedasticity, errors are uncorrelated with x on average
   -  The $E[Y | X]$ minimizes the mean squared error
-     - function of X, 
+     - function of X, MSE = (Y- g(X))^2
 
 # We want to find a line that minimizes the errors to the averages
     - orthog projections
@@ -157,6 +159,7 @@ Without intercept show for each bins
 With intercept shows the means relative to the intercept
 
 # Why do we want to distinguish between the two? 
+Outcomes with multiple predictors estimate relationships in multiple dimensions
 Even though we are looking at the exact same information, the standard errors and P-Values are different
 Our null hypothesis for each coefficient is equal to 0
 
@@ -179,6 +182,10 @@ How does binning help?
     - Why?
       - Prediction
       - Inference we are interested in confounders
+      
+# Slide 13 of lecture 2
+  regressions are estimating positive correlation
+  
 
 # Outcome vs Single Predictor
 
@@ -250,13 +257,37 @@ Upward Mobility in the United States
   - reasons for variation
      - sorting: people willing and able to move
      - causal effects
+
+# Raj Chetty Data Notes from lecture slides 2
+  census data (anonymized) from 1989-2015
+    form 1040 tax return
+  children 1978 to 1983 birth cohorts
+  This is a quasi experiment, historical data
+    variation in age is the difference to estimate
+      Differences in siblings 
+      differences in neighborhood effects
+
      
 # Lecture 3 Apr 5
 
 ## Equality of Opportunity Project
+  using data to estimate the relationship between patent rates and parent income
+  parent income has a relationship with ability, preferences, constraints
+  high scoring children are more likely to be inventors if they are from high income families
+
+## Effects of childhood environment on innovation
+  most innovation gap across grooup characteristics is not because of ability differences
+  test scores are very imperfect measures of ability
+    non inventor vs inventor environment rates
+    a binary difference
+    then look at neighbors
+    there are gender specific impacts
+
+  
 ### Data
   Tax return data from the IRS    
   How much their kids are earning from their early 30s
+  
 ### Projects
   1. The fading American Dream
     Descriptive paper documenting these facts - Science
@@ -639,9 +670,6 @@ Real health insurance experiments
       We believe that the treatment is balanced because that standard errors are small compared to the mean of the group
       
     
-    
-      
-
   Lets randomize people's health by giving them less money!
     - what is the sample?
     - did people volunteer?
@@ -783,6 +811,86 @@ Billing:                Visits:
   Nov 18 268.40 2021 July 2021
   June 18 268.40 2021 AP 2021
   AP 21 268.40 Feb 18 2021 
+
+Tax is a type of bunching estimate.
+  
+Regression discontinuity is not a randomized experiment
+  - Comparing treatment and control groups does not work
+  - In order foor you to belive that the Quasi Exp. mirrors a randomized experiment
+    - You have to make some assumptions
+
+Sharp Regression Discontinuity Design
+  - P of being treated is above 
+  - Nobody with X_{i} < c gets treated
+  
+RD vs Naiive Regression
+  show assignment
+  show regressing x_{i} on y_{i} test for identifiaction frequency
+  make a balancing check
+
+Ask Eric in office hours
+  - Abstract algebra and Measure Theory for econometric methods
+  - If economics is evaluating outcomes on groups, why do we focus on algebra for individuals
+  - Question 9 of the homework assignment
+
+## Wrapping up RD Analysis
+  We were talking about sharp RD
+  Why is RD different from simple OLS
+    You would hope that individuals on either side of the discon are rpactically identical
+  Two tests to measure the identification assumption
+    manipulation test, provide a histogram of data around the cutoff
+    covariates smoothness test
+      look at a handful of characteristics and show that they are balanced uot
+  Choosing a bandwidth
+    there is a package for RD - RD robust
+  Functioonal forms
+     you want to allow for a functional form rather than comparing the raw datapoints
+     With a non-parametic method,   
+      you restrict your information within the h bandwidth cutoff
+    Rather than non-parametric (including x - c)
+      you use all of the observations to fit a single slope
+        you will treat the jump as a treatment effect
+        the two parallel lines are using \beta 1, the rd estiamte is the gap on the two sides
+    Using x - c on both betas:
+       you allow for differences in slopes on either side of the discontinuity
+
+## You can also use other nonlinear functional forms
+  Y_{i} = \alpha + \tau D_{i} + \beta (x_{i} - c)^2 + \beta(x_{i})
+  depending on what model you use, you can get different answers
+  linear line will give you strong rd
+  quadratic will give you no rd 
+
+## Interpretationo of RD estimates
+  External validity is an important consideration for RD
+  RD gives you really strong visual evidence
+  RD is only giving you treatment effects for a very specific group of people, this is an example of a local average treatment effect
+  What is the effects of
+
+## Fuzzy Regression Discontinuity Design
+  Account for incomplete compliance in RD
+  Estimate the first stage regression.
+     With x >= c 
+  Estimate the reduced form regression
+  RD estimate
+    What fraction of these individuals are actually being treated?
+    In sharp RD, yhat is 1
+  Treatment is some kind of dummy
+  Strong assumption that Tau is linear
+     it doesnt necessarily make sense that the actual effect if concave/convex
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   
